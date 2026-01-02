@@ -3,9 +3,9 @@
  * Catches unhandled React errors and displays a fallback UI.
  * Reports errors to the backend for monitoring.
  */
+import { ErrorPage } from '@/components/common';
 import { env } from '@/config/env';
 import { createErrorReport, reportError } from '@/lib/error-reporting';
-import { ErrorPage } from '@/components/common';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 interface ErrorBoundaryProviderProps {

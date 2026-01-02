@@ -31,11 +31,13 @@ pnpm dev:full
 If you forked this template and want to pull in updates:
 
 1. Add the upstream remote (if not already added):
+
    ```bash
    git remote add upstream <template-repo-url>
    ```
 
 2. Fetch and review upstream changes:
+
    ```bash
    git fetch upstream
    ```
@@ -126,20 +128,20 @@ pnpm dev
 
 ### Root Level
 
-| Script             | Description                                |
-| ------------------ | ------------------------------------------ |
-| `pnpm dev`         | Start all apps in development mode         |
-| `pnpm dev:full`    | Start Docker + run migrations + start apps |
-| `pnpm build`       | Build all apps                             |
-| `pnpm docker:up`   | Start Docker containers                    |
-| `pnpm docker:down` | Stop Docker containers                     |
-| `pnpm docker:logs` | View Docker container logs                 |
-| `pnpm db:migrate`  | Run Prisma migrations                      |
-| `pnpm db:studio`   | Open Prisma Studio                         |
-| `pnpm db:generate` | Generate Prisma client                     |
-| `pnpm init-project`| Initialize project with your own name      |
-| `pnpm changeset`   | Create a new changeset                     |
-| `pnpm changeset:version` | Apply changesets and bump versions   |
+| Script                   | Description                                |
+| ------------------------ | ------------------------------------------ |
+| `pnpm dev`               | Start all apps in development mode         |
+| `pnpm dev:full`          | Start Docker + run migrations + start apps |
+| `pnpm build`             | Build all apps                             |
+| `pnpm docker:up`         | Start Docker containers                    |
+| `pnpm docker:down`       | Stop Docker containers                     |
+| `pnpm docker:logs`       | View Docker container logs                 |
+| `pnpm db:migrate`        | Run Prisma migrations                      |
+| `pnpm db:studio`         | Open Prisma Studio                         |
+| `pnpm db:generate`       | Generate Prisma client                     |
+| `pnpm init-project`      | Initialize project with your own name      |
+| `pnpm changeset`         | Create a new changeset                     |
+| `pnpm changeset:version` | Apply changesets and bump versions         |
 
 ## URLs
 
@@ -170,6 +172,7 @@ npx shadcn@latest add [component-name]
 Both apps include a comprehensive logging and observability infrastructure:
 
 **Backend (NestJS):**
+
 - Structured JSON logging with OpenTelemetry integration
 - Automatic trace context propagation for distributed tracing
 - Custom metrics service for business KPIs and performance monitoring
@@ -177,12 +180,14 @@ Both apps include a comprehensive logging and observability infrastructure:
 - BetterStack integration for centralized log aggregation
 
 **Frontend (React):**
+
 - Error boundary provider catching all unhandled React errors
 - Automatic error reporting to backend via `/api/v1/client-errors`
 - User-friendly error pages with error IDs for support reference
 - Conditional console logging (dev-only) with module prefixes
 
 Configure logging via environment variables:
+
 - `LOG_LEVEL` - error, warn, log, debug, verbose
 - `OTEL_ENABLED` - Enable/disable OpenTelemetry export
 - `OTEL_EXPORTER_OTLP_ENDPOINT` - BetterStack OTLP endpoint
@@ -191,4 +196,4 @@ See [Logging Standards](.documentation/devdocs/Logging-Standards.md) for full do
 
 ## License
 
-MIT
+MIT test

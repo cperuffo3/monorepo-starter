@@ -118,6 +118,7 @@ pnpm init-project
 ```
 
 The script will prompt you to:
+
 - Set your project name (e.g., `my-awesome-app`)
 - Choose package naming convention (`@myapp/api` vs `myapp-api` vs `api`)
 - Set initial version (0.1.0 or 1.0.0)

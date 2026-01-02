@@ -110,8 +110,16 @@ export function HealthStatusCard() {
         )}
 
         <div className="pt-2">
-          <Button onClick={() => refetch()} variant="outline" className="w-full" disabled={isLoading}>
-            <FontAwesomeIcon icon={faRotate} className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+          <Button
+            onClick={() => refetch()}
+            variant="outline"
+            className="w-full"
+            disabled={isLoading}
+          >
+            <FontAwesomeIcon
+              icon={faRotate}
+              className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
+            />
             Refresh
           </Button>
         </div>

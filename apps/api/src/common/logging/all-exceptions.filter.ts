@@ -2,13 +2,7 @@
  * Global exception filter for centralized error handling and logging.
  * Classifies errors by severity and logs appropriately.
  */
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CustomLoggerService } from './logger.service.js';
 
@@ -48,9 +42,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path: request.url,
       method: request.method,
-      message: status >= 500 && process.env.NODE_ENV === 'production'
-        ? 'An internal server error occurred'
-        : message,
+      message:
+        status >= 500 && process.env.NODE_ENV === 'production'
+          ? 'An internal server error occurred'
+          : message,
     };
 
     // Classify and log errors appropriately
