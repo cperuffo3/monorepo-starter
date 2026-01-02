@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "dev:full": "docker-compose -f docker/docker-compose.yml up -d --wait && pnpm db:migrate && turbo dev",
+    "dev:full": "docker-compose -f docker/docker-compose.yml up -d --wait && pnpm db:generate && pnpm db:migrate && turbo dev",
     "docker:up": "docker-compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker-compose -f docker/docker-compose.yml down",
     "docker:logs": "docker-compose -f docker/docker-compose.yml logs -f",

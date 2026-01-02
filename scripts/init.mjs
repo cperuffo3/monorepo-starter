@@ -52,6 +52,25 @@ async function isAlreadyInitialized() {
 }
 
 /**
+ * Remove the init-project script entry from package.json
+ * This prevents the script from being run again after initialization
+ */
+async function removeInitScript() {
+  console.log('\nRemoving init-project script from package.json...');
+
+  try {
+    const pkgPath = path.join(ROOT, 'package.json');
+    const pkg = JSON.parse(await fs.readFile(pkgPath, 'utf-8'));
+    delete pkg.scripts['init-project'];
+    await fs.writeFile(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
+
+    console.log('init-project script removed from package.json.');
+  } catch (error) {
+    console.error('Warning: Could not remove init-project script:', error.message);
+  }
+}
+
+/**
  * Reset git history with a fresh initial commit
  * @param {string} projectName - The new project name
  */
@@ -163,6 +182,9 @@ async function main() {
     if (resetGit) {
       await resetGitHistory(projectName);
     }
+
+    // Remove the init-project script from package.json
+    await removeInitScript();
 
     console.log('\n========================================');
     console.log('  Project initialized successfully!');
