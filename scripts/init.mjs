@@ -160,7 +160,7 @@ async function main() {
     console.log('Updating environment files...');
     const { copied: copiedEnvFiles, skipped: skippedEnvFiles } = await updateEnvFiles(
       ROOT,
-      projectName
+      projectName,
     );
     if (copiedEnvFiles.length > 0) {
       console.log(`  Created: ${copiedEnvFiles.join(', ')}`);
@@ -194,6 +194,7 @@ async function main() {
     console.log('  1. Review the changes');
     console.log('  2. Run: pnpm install');
     console.log('  3. Run: pnpm dev:full');
+    console.log('  4. Delete the /scripts directory');
     console.log('');
     console.log('Note: Docker containers are named with underscores');
     console.log(`(${projectName.replace(/-/g, '_')}) for database credentials.\n`);
