@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { apiReference } from '@scalar/nestjs-api-reference';
 import { AppModule } from './app.module.js';
 import { CustomLoggerService } from './common/logging/index.js';
 
@@ -31,14 +32,22 @@ async function bootstrap() {
 
   const openApiDocument = SwaggerModule.createDocument(app, swaggerConfig);
 
-  // Serve OpenAPI at /api/openapi (JSON at /api/openapi-json)
-  // This is outside the /api/v1 prefix to avoid versioning the docs endpoint
+  // Serve OpenAPI JSON at /api/openapi-json
   SwaggerModule.setup('api/openapi', app, openApiDocument);
+
+  // Scalar API Reference - modern API documentation UI
+  app.use(
+    '/api/reference',
+    apiReference({
+      theme: 'default',
+      url: '/api/openapi-json',
+    }),
+  );
 
   await app.listen(port);
 
   logger.log(`Application started on http://localhost:${port}/${apiPrefix}`);
-  logger.log(`OpenAPI docs at http://localhost:${port}/api/openapi`);
+  logger.log(`API Reference at http://localhost:${port}/api/reference`);
 }
 
 bootstrap();
