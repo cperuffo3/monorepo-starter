@@ -3,6 +3,7 @@
  * Uses flat config format (ESLint 9+).
  */
 import eslint from '@eslint/js';
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tailwindCanonicalClasses from 'eslint-plugin-tailwind-canonical-classes';
@@ -28,7 +29,13 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'better-tailwindcss': betterTailwindcss,
       'tailwind-canonical-classes': tailwindCanonicalClasses,
+    },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: './src/index.css',
+      },
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -46,6 +53,7 @@ export default tseslint.config(
           ],
         },
       ],
+      ...betterTailwindcss.configs.recommended.rules,
       'tailwind-canonical-classes/tailwind-canonical-classes': [
         'warn',
         {
@@ -55,6 +63,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'vite.config.d.ts'],
+    ignores: ['dist/**', 'node_modules/**', 'vite.config.js', 'vite.config.d.ts'],
   },
 );
