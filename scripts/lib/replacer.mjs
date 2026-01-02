@@ -91,7 +91,29 @@ export async function updateDockerCompose(rootDir, projectName) {
 }
 
 /**
- * Update environment example files
+ * Copy a file if it doesn't already exist
+ * @param {string} src - Source file path
+ * @param {string} dest - Destination file path
+ * @returns {Promise<boolean>} - True if copied, false if skipped or failed
+ */
+async function copyIfNotExists(src, dest) {
+  try {
+    // Check if destination already exists
+    await fs.access(dest);
+    return false; // File exists, skip
+  } catch {
+    // File doesn't exist, try to copy
+    try {
+      await fs.copyFile(src, dest);
+      return true;
+    } catch {
+      return false; // Source doesn't exist
+    }
+  }
+}
+
+/**
+ * Update environment example files and copy to .env
  * @param {string} rootDir - Root directory of the project
  * @param {string} projectName - New project name
  */
@@ -100,6 +122,7 @@ export async function updateEnvFiles(rootDir, projectName) {
   const dbPassword = `${dbUser}_dev_password`;
   const dbName = dbUser;
 
+  // Update root .env.example
   await replaceInFile(path.join(rootDir, '.env.example'), [
     { from: 'MONOREPO STARTER', to: projectName.toUpperCase().replace(/-/g, ' ') },
     {
@@ -108,13 +131,41 @@ export async function updateEnvFiles(rootDir, projectName) {
     },
   ]);
 
-  // Also update apps/api/.env.example if it exists
+  // Update apps/api/.env.example
   await replaceInFile(path.join(rootDir, 'apps/api/.env.example'), [
     {
       from: 'postgresql://starter:starter_dev_password@localhost:5432/starter',
       to: `postgresql://${dbUser}:${dbPassword}@localhost:5432/${dbName}`,
     },
   ]);
+
+  // Copy .env.example files to .env (if .env doesn't exist)
+  const envFiles = [
+    { example: '.env.example', env: '.env' },
+    { example: 'apps/api/.env.example', env: 'apps/api/.env' },
+  ];
+
+  const copied = [];
+  const skipped = [];
+  for (const { example, env } of envFiles) {
+    const wasCopied = await copyIfNotExists(
+      path.join(rootDir, example),
+      path.join(rootDir, env)
+    );
+    if (wasCopied) {
+      copied.push(env);
+    } else {
+      // Check if the file exists (was skipped) vs source doesn't exist
+      try {
+        await fs.access(path.join(rootDir, env));
+        skipped.push(env);
+      } catch {
+        // Source doesn't exist, ignore
+      }
+    }
+  }
+
+  return { copied, skipped };
 }
 
 /**

@@ -139,7 +139,17 @@ async function main() {
     await updateDockerCompose(ROOT, projectName);
 
     console.log('Updating environment files...');
-    await updateEnvFiles(ROOT, projectName);
+    const { copied: copiedEnvFiles, skipped: skippedEnvFiles } = await updateEnvFiles(
+      ROOT,
+      projectName
+    );
+    if (copiedEnvFiles.length > 0) {
+      console.log(`  Created: ${copiedEnvFiles.join(', ')}`);
+    }
+    if (skippedEnvFiles.length > 0) {
+      console.log(`  Skipped (already exist): ${skippedEnvFiles.join(', ')}`);
+      console.log('  Warning: You may need to manually update these files with new credentials.');
+    }
 
     console.log('Updating source code...');
     await updateSourceCode(ROOT, projectName);
