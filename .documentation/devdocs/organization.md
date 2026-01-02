@@ -62,10 +62,10 @@ modules/[feature-name]/
 
 ### Common vs Modules
 
-| Folder | Purpose | Examples |
-|--------|---------|----------|
-| `common/` | Global, shared infrastructure used across all modules | Logging, Prisma, Auth guards, Exception filters |
-| `modules/` | Feature-specific business domains | Users, Events, Health, Notifications |
+| Folder     | Purpose                                               | Examples                                        |
+| ---------- | ----------------------------------------------------- | ----------------------------------------------- |
+| `common/`  | Global, shared infrastructure used across all modules | Logging, Prisma, Auth guards, Exception filters |
+| `modules/` | Feature-specific business domains                     | Users, Events, Health, Notifications            |
 
 ### Key Conventions
 
@@ -87,7 +87,7 @@ import { PrismaHealthIndicator } from './prisma.health.js';
   imports: [TerminusModule],
   controllers: [HealthController],
   providers: [PrismaHealthIndicator],
-  exports: [PrismaHealthIndicator],  // Export if other modules need it
+  exports: [PrismaHealthIndicator], // Export if other modules need it
 })
 export class HealthModule {}
 ```
@@ -171,12 +171,12 @@ features/[feature-name]/
 
 ### Components Hierarchy
 
-| Folder | Scope | Examples |
-|--------|-------|----------|
-| `components/ui/` | Generic UI primitives (shadcn/ui) | Button, Card, Dialog |
-| `components/common/` | Application-specific reusables | ErrorPage, PageHeader, Avatar |
-| `components/layout/` | Page structure components | Sidebar, Header, Footer |
-| `features/*/components/` | Feature-specific components | HealthStatusCard, UserProfile |
+| Folder                   | Scope                             | Examples                      |
+| ------------------------ | --------------------------------- | ----------------------------- |
+| `components/ui/`         | Generic UI primitives (shadcn/ui) | Button, Card, Dialog          |
+| `components/common/`     | Application-specific reusables    | ErrorPage, PageHeader, Avatar |
+| `components/layout/`     | Page structure components         | Sidebar, Header, Footer       |
+| `features/*/components/` | Feature-specific components       | HealthStatusCard, UserProfile |
 
 ### Key Conventions
 
@@ -282,10 +282,10 @@ export function FeaturePage() {
 
 ## Summary
 
-| Aspect | Backend (API) | Frontend (Web) |
-|--------|---------------|----------------|
-| Architecture | Module-based (NestJS) | Feature-based (React) |
-| Shared code | `common/` folder | `components/`, `hooks/`, `lib/` |
-| Feature code | `modules/` folder | `features/` folder |
-| Entry point | `app.module.ts` | `main.tsx` |
-| Barrel exports | Yes (`.js` extension) | Yes |
+| Aspect         | Backend (API)         | Frontend (Web)                  |
+| -------------- | --------------------- | ------------------------------- |
+| Architecture   | Module-based (NestJS) | Feature-based (React)           |
+| Shared code    | `common/` folder      | `components/`, `hooks/`, `lib/` |
+| Feature code   | `modules/` folder     | `features/` folder              |
+| Entry point    | `app.module.ts`       | `main.tsx`                      |
+| Barrel exports | Yes (`.js` extension) | Yes                             |

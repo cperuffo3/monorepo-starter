@@ -417,16 +417,16 @@ this.metrics.recordQueueJobEnd({ queue: 'emails', jobType: 'send' });
 
 All metrics follow the pattern: `{service}.{domain}.{metric}.{unit}`
 
-| Metric                            | Type          | Description                  |
-| --------------------------------- | ------------- | ---------------------------- |
-| `api.orders.created.total`        | Counter       | Total orders created         |
-| `api.payments.processed.total`    | Counter       | Total payments processed     |
-| `api.operations.duration`         | Histogram     | Operation time (ms)          |
-| `api.errors.total`                | Counter       | Errors by type               |
-| `api.external_api.duration`       | Histogram     | External API call time (ms)  |
-| `api.db.query.duration`           | Histogram     | Database query time (ms)     |
-| `api.websocket.connections.active`| UpDownCounter | Active WebSocket connections |
-| `api.queue.jobs.active`           | UpDownCounter | Active queue jobs            |
+| Metric                             | Type          | Description                  |
+| ---------------------------------- | ------------- | ---------------------------- |
+| `api.orders.created.total`         | Counter       | Total orders created         |
+| `api.payments.processed.total`     | Counter       | Total payments processed     |
+| `api.operations.duration`          | Histogram     | Operation time (ms)          |
+| `api.errors.total`                 | Counter       | Errors by type               |
+| `api.external_api.duration`        | Histogram     | External API call time (ms)  |
+| `api.db.query.duration`            | Histogram     | Database query time (ms)     |
+| `api.websocket.connections.active` | UpDownCounter | Active WebSocket connections |
+| `api.queue.jobs.active`            | UpDownCounter | Active queue jobs            |
 
 ### When to Add New Metrics
 
@@ -538,6 +538,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 ```
 
 **Features:**
+
 - Catches all unhandled React errors via `componentDidCatch`
 - Reports errors to backend via `/api/v1/client-errors`
 - Displays user-friendly error page with retry/go-home options
@@ -554,12 +555,12 @@ The error reporting service sends structured error reports to the backend:
 interface ErrorReport {
   message: string;
   stack?: string;
-  componentStack?: string;  // React component stack trace
-  url: string;              // Current page URL
-  userAgent?: string;       // Browser information
-  timestamp: string;        // ISO 8601 timestamp
-  context?: Record<string, unknown>;  // Additional context
-  breadcrumbs?: string[];   // User actions leading to error
+  componentStack?: string; // React component stack trace
+  url: string; // Current page URL
+  userAgent?: string; // Browser information
+  timestamp: string; // ISO 8601 timestamp
+  context?: Record<string, unknown>; // Additional context
+  breadcrumbs?: string[]; // User actions leading to error
 }
 ```
 
@@ -579,6 +580,7 @@ if (response?.errorId) {
 ```
 
 **Design Decisions:**
+
 - Uses `fetch` directly instead of API client to avoid circular dependencies
 - Fails gracefully - error reporting should never cause additional errors
 - Includes credentials for authenticated error correlation
@@ -608,13 +610,13 @@ console.log('User data:', userData);
 
 Use square bracket prefixes for easy filtering:
 
-| Module | Prefix | Example |
-|--------|--------|---------|
-| Error Boundary | `[ErrorBoundary]` | `[ErrorBoundary] Caught error: ...` |
-| Error Page | `[ErrorPage]` | `[ErrorPage] Error: ...` |
+| Module          | Prefix             | Example                                        |
+| --------------- | ------------------ | ---------------------------------------------- |
+| Error Boundary  | `[ErrorBoundary]`  | `[ErrorBoundary] Caught error: ...`            |
+| Error Page      | `[ErrorPage]`      | `[ErrorPage] Error: ...`                       |
 | Error Reporting | `[ErrorReporting]` | `[ErrorReporting] Failed to report error: ...` |
-| API Client | `[API]` | `[API] Request failed: ...` |
-| Socket | `[Socket]` | `[Socket] Connected` |
+| API Client      | `[API]`            | `[API] Request failed: ...`                    |
+| Socket          | `[Socket]`         | `[Socket] Connected`                           |
 
 ### Error Page Component
 
@@ -626,6 +628,7 @@ Two variants are provided:
 2. **`RouteErrorPage`** - For use as React Router `errorElement` (uses `useRouteError()`)
 
 **Features:**
+
 - User-friendly error message
 - Error ID display for support reference
 - "Go Home" and "Try Again" buttons
@@ -688,6 +691,7 @@ function MyComponent() {
 The frontend expects a `/api/v1/client-errors` POST endpoint on the backend:
 
 **Request:**
+
 ```json
 {
   "message": "Cannot read property 'id' of undefined",
@@ -701,6 +705,7 @@ The frontend expects a `/api/v1/client-errors` POST endpoint on the backend:
 ```
 
 **Response:**
+
 ```json
 {
   "logged": true,
@@ -713,12 +718,14 @@ The `errorId` should be a unique identifier that can be used to correlate fronte
 ### What to Log (Frontend)
 
 #### Always Log (in development)
+
 - Error boundary catches
 - API request failures
 - Authentication/authorization events
 - WebSocket connection lifecycle
 
 #### Never Log
+
 - User passwords or tokens
 - Personal information (email, phone)
 - Full request/response bodies with sensitive data
