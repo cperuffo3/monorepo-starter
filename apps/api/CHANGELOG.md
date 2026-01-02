@@ -1,5 +1,11 @@
 # @starter/api
 
+## 0.1.3
+
+### Patch Changes
+
+- add install to init script
+
 ## 0.1.2
 
 ### Patch Changes
