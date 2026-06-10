@@ -2,4 +2,12 @@ packages:
   - apps/*
   - packages/*
 
-onlyBuiltDependencies: [esbuild]
+allowBuilds:
+  esbuild: true
+  # Preserve prior `onlyBuiltDependencies: [esbuild]` behavior — these build
+  # scripts were not run under pnpm v10 and aren't needed (Prisma's client is
+  # generated explicitly via `pnpm db:generate`).
+  '@prisma/engines': false
+  '@scarf/scarf': false
+  prisma: false
+  vue-demi: false
