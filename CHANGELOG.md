@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/cperuffo3/monorepo-starter/compare/v0.1.5...v0.2.0) (2026-06-10)
+
+### Features
+
+* improve releasing strategy ([5173194](https://github.com/cperuffo3/monorepo-starter/commit/5173194f1d62208aca94a3a0c73a9efeec5a82aa))
+* install all shadcn components and fix formatting ([2c3e347](https://github.com/cperuffo3/monorepo-starter/commit/2c3e34755bd2036a963099d6415422b5c5595e32))
+
+### Bug Fixes
+
+* cursor-pointer and new icon library added ([dec0047](https://github.com/cperuffo3/monorepo-starter/commit/dec00470502545a65ef1d16b22a4b721a8e1ec26))
+* linting errors ([8f8d45c](https://github.com/cperuffo3/monorepo-starter/commit/8f8d45c5d561af95ce639d32b9fe744869cacc8f))
+* update packages ([6f75e3f](https://github.com/cperuffo3/monorepo-starter/commit/6f75e3f31944b64dd6044c94fefe7e4b989c13fd))
+* update to pnpm v11 ([444988f](https://github.com/cperuffo3/monorepo-starter/commit/444988f301c5ca6a49ff15ff6ac569a46877b418))
+
 All notable changes to this template will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
