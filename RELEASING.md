@@ -8,7 +8,7 @@ Every package shares **one version**. The root `package.json`, `apps/api`, `apps
 
 One long-lived branch:
 
-| Branch   | Purpose                                                                        |
+| Branch   | Purpose                                                                       |
 | :------- | :---------------------------------------------------------------------------- |
 | `master` | Integration + release branch. All work lands here via PRs; releases cut here. |
 
@@ -145,9 +145,9 @@ You should never need to hand-edit `CHANGELOG.md` or any `version` field. If you
 
 release-it needs a GitHub token to push to `master` and create the Release. Provide it in your shell environment as `GITHUB_TOKEN` (or `GH_TOKEN`):
 
-| Where                  | Name                         | Scope needed                                                                 |
-| :--------------------- | :--------------------------- | :-------------------------------------------------------------------------- |
-| Local shell / `.env`   | `GITHUB_TOKEN` or `GH_TOKEN` | `Contents: Read/Write` (push commits + tags) and permission to create releases on this repo. |
+| Where                | Name                         | Scope needed                                                                                 |
+| :------------------- | :--------------------------- | :------------------------------------------------------------------------------------------- |
+| Local shell / `.env` | `GITHUB_TOKEN` or `GH_TOKEN` | `Contents: Read/Write` (push commits + tags) and permission to create releases on this repo. |
 
 A fine-grained PAT scoped to this repo with **Contents: Read and write** is sufficient. release-it picks the token up from the environment automatically.
 
