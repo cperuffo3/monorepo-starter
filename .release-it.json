@@ -1,0 +1,41 @@
+{
+  "git": {
+    "commitMessage": "chore: release v${version}",
+    "commitArgs": ["-a"],
+    "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
+    "requireBranch": "master",
+    "requireCleanWorkingDir": true,
+    "requireUpstream": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}"
+  },
+  "npm": {
+    "publish": false
+  },
+  "hooks": {
+    "before:init": ["pnpm run lint", "pnpm run type-check"],
+    "after:bump": ["node scripts/sync-versions.mjs ${version}", "pnpm install --lockfile-only"]
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          { "type": "feat", "section": "Features" },
+          { "type": "fix", "section": "Bug Fixes" },
+          { "type": "perf", "section": "Performance" },
+          { "type": "refactor", "section": "Refactoring" },
+          { "type": "docs", "section": "Documentation" },
+          { "type": "chore", "section": "Chores", "hidden": true },
+          { "type": "style", "section": "Styles", "hidden": true },
+          { "type": "test", "section": "Tests", "hidden": true },
+          { "type": "ci", "section": "CI", "hidden": true }
+        ]
+      },
+      "infile": "CHANGELOG.md"
+    }
+  }
+}

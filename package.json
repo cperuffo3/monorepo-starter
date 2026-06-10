@@ -1,6 +1,6 @@
 {
   "name": "monorepo-starter",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "private": true,
   "packageManager": "pnpm@10.27.0",
   "engines": {
@@ -24,16 +24,20 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "clean": "turbo clean && rimraf node_modules",
     "init-project": "pnpm install && node scripts/init.mjs",
-    "changeset": "changeset",
-    "changeset:version": "changeset version"
+    "release": "release-it",
+    "release:patch": "release-it patch",
+    "release:minor": "release-it minor",
+    "release:major": "release-it major",
+    "release:dry": "release-it --dry-run"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.0",
     "@inquirer/prompts": "^8.1.0",
+    "@release-it/conventional-changelog": "^10.0.4",
     "eslint-plugin-tailwind-canonical-classes": "^1.1.0",
     "prettier": "^3.7.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "release-it": "^19.2.4",
     "rimraf": "^6.1.2",
     "turbo": "^2.7.2",
     "typescript": "^5.9.3"

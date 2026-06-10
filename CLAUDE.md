@@ -126,21 +126,33 @@ The script will prompt you to:
 
 This updates all package names, Docker configs, environment files, and documentation.
 
-## Version Management (Changesets)
+## Version Management (release-it)
 
-This project uses [Changesets](https://github.com/changesets/changesets) for version management.
+This project uses [release-it](https://github.com/release-it/release-it) for version management with conventional commits.
 
-### For Template Maintainers
-
-When making changes to the template:
+### Creating a Release
 
 ```bash
-pnpm changeset          # Create a changeset describing your changes
-pnpm changeset:version  # Apply changesets and update CHANGELOG
+pnpm release           # Create a new release (interactive)
+pnpm release:dry       # Preview release without making changes
 ```
 
-The CHANGELOG serves as a migration guide for users updating their forks.
+Release-it will:
 
-### For Project Users
+1. Bump version in all workspace packages
+2. Generate/update CHANGELOG.md from conventional commits
+3. Create a git tag
+4. Create a GitHub release
 
-After running `pnpm init-project`, the changelog is reset for your project's use. Use the same commands to track your own changes.
+### Commit Message Convention
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) for automatic changelog generation:
+
+- `feat: add new feature` - Features (minor version bump)
+- `fix: resolve bug` - Bug Fixes (patch version bump)
+- `perf: improve performance` - Performance improvements
+- `refactor: restructure code` - Refactoring
+- `docs: update readme` - Documentation
+- `chore: update deps` - Maintenance (hidden from changelog)
+
+Breaking changes: Add `BREAKING CHANGE:` in the commit body or `!` after the type (e.g., `feat!: breaking change`).

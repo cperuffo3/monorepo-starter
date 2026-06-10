@@ -1,6 +1,9 @@
 version: 2
 updates:
-  # Root package.json
+  # All npm dependencies across the pnpm workspace (root + apps/* + packages/*).
+  # Dependabot discovers every workspace package from the root manifest, so a
+  # single entry covers the whole monorepo. Collapsed into exactly two PRs:
+  # one for minor+patch, one for major.
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -8,61 +11,22 @@ updates:
       day: "monday"
     open-pull-requests-limit: 10
     groups:
-      typescript:
-        patterns:
-          - "typescript"
-          - "@types/*"
-      turbo:
-        patterns:
-          - "turbo"
-      dev-dependencies:
-        dependency-type: "development"
-        exclude-patterns:
-          - "typescript"
-          - "@types/*"
-          - "turbo"
+      minor:
+        update-types:
+          - "minor"
+          - "patch"
+      major:
+        update-types:
+          - "major"
 
-  # API app
-  - package-ecosystem: "npm"
-    directory: "/apps/api"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 10
-    groups:
-      nestjs:
-        patterns:
-          - "@nestjs/*"
-      drizzle:
-        patterns:
-          - "drizzle-*"
-      dev-dependencies:
-        dependency-type: "development"
-
-  # Web app
-  - package-ecosystem: "npm"
-    directory: "/apps/web"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 10
-    groups:
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
-          - "@types/react*"
-      vite:
-        patterns:
-          - "vite"
-          - "@vitejs/*"
-      dev-dependencies:
-        dependency-type: "development"
-
-  # GitHub Actions
+  # GitHub Actions versions — one grouped PR.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns:
+          - "*"
