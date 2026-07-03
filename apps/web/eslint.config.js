@@ -133,8 +133,7 @@ export default tseslint.config(
         'error',
         {
           default: 'disallow',
-          message:
-            'Import features through their barrel (index.ts), not internal files',
+          message: 'Import features through their barrel (index.ts), not internal files',
           rules: [
             { target: ['feature'], allow: 'index.ts' },
             {

@@ -4,6 +4,7 @@
  */
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
+
 import { CustomLoggerService } from './logger.service.js';
 
 // Common paths that generate 404s from scanners/bots (reduces log noise)

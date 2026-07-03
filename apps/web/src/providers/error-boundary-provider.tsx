@@ -3,10 +3,11 @@
  * Catches unhandled React errors and displays a fallback UI.
  * Reports errors to the backend for monitoring.
  */
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+
 import { ErrorPage } from '@/components/common';
 import { env } from '@/config/env';
 import { createErrorReport, reportError } from '@/lib/error-reporting';
-import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 interface ErrorBoundaryProviderProps {
   children: ReactNode;

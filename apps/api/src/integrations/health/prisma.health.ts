@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus';
+
 import { PrismaService } from '../../database/index.js';
 
 @Injectable()

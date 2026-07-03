@@ -49,10 +49,10 @@ apps/api/src/
 
 | Layer           | Contains                                                            | May import                                    |
 | --------------- | ------------------------------------------------------------------- | --------------------------------------------- |
-| `common/`       | Interceptors, filters, guards, decorators, pipes, logger, helpers    | `common` only                                  |
-| `database/`     | PrismaService, repositories, entity type re-exports                  | `database`, `common`                           |
-| `core/`         | Domain modules: controllers, services, DTOs                          | `core`, `common`, `database`, `integrations`   |
-| `integrations/` | Infrastructure with external systems (health, mail, queue, storage)  | `common`, `database`, same integration module  |
+| `common/`       | Interceptors, filters, guards, decorators, pipes, logger, helpers   | `common` only                                 |
+| `database/`     | PrismaService, repositories, entity type re-exports                 | `database`, `common`                          |
+| `core/`         | Domain modules: controllers, services, DTOs                         | `core`, `common`, `database`, `integrations`  |
+| `integrations/` | Infrastructure with external systems (health, mail, queue, storage) | `common`, `database`, same integration module |
 
 These edges are enforced by `boundaries/element-types` in `eslint.config.mjs`. Cross-layer imports must go through the layer's barrel (`index.ts`) — enforced by `boundaries/entry-point`.
 
@@ -115,13 +115,13 @@ apps/web/src/
 
 **Import rules (lint-enforced):**
 
-| From                 | May import                                                  |
-| -------------------- | ----------------------------------------------------------- |
-| `components/ui`      | `ui`, `lib`, `hooks`                                         |
-| `components/*` other | `ui`, `components`, `lib`, `hooks`, `config`                 |
+| From                 | May import                                                                   |
+| -------------------- | ---------------------------------------------------------------------------- |
+| `components/ui`      | `ui`, `lib`, `hooks`                                                         |
+| `components/*` other | `ui`, `components`, `lib`, `hooks`, `config`                                 |
 | `features/<x>`       | shared layers + **its own feature only** — never another feature's internals |
-| `hooks`, `lib`       | `lib`, `config`, `hooks` — never components or features      |
-| `main.tsx`           | anything                                                     |
+| `hooks`, `lib`       | `lib`, `config`, `hooks` — never components or features                      |
+| `main.tsx`           | anything                                                                     |
 
 Cross-feature imports are only possible through a feature's barrel (`features/<x>/index.ts`) — and should be rare; if two features need the same code, move it to a shared layer.
 
@@ -180,15 +180,15 @@ packages/shared/src/
 
 ## Enforcement summary
 
-| Mechanism                             | What it enforces                                                     |
-| ------------------------------------- | -------------------------------------------------------------------- |
-| `boundaries/element-types`            | The layer/feature import matrix above, in both apps                   |
-| `boundaries/entry-point`              | Cross-module imports go through barrels (`index.ts`)                  |
-| `no-restricted-imports`               | No `../../../` imports; Prisma client fenced into `src/database`      |
-| `check-file/filename-naming-convention` | kebab-case file names                                               |
-| `check-file/folder-naming-convention` | kebab-case folder names                                               |
-| `pnpm gen feature\|module`            | New code starts in the canonical shape                                |
-| `turbo build` (`dependsOn: ^build`)   | `@starter/shared` builds before the apps                              |
+| Mechanism                               | What it enforces                                                 |
+| --------------------------------------- | ---------------------------------------------------------------- |
+| `boundaries/element-types`              | The layer/feature import matrix above, in both apps              |
+| `boundaries/entry-point`                | Cross-module imports go through barrels (`index.ts`)             |
+| `no-restricted-imports`                 | No `../../../` imports; Prisma client fenced into `src/database` |
+| `check-file/filename-naming-convention` | kebab-case file names                                            |
+| `check-file/folder-naming-convention`   | kebab-case folder names                                          |
+| `pnpm gen feature\|module`              | New code starts in the canonical shape                           |
+| `turbo build` (`dependsOn: ^build`)     | `@starter/shared` builds before the apps                         |
 
 Run `pnpm lint` (or `pnpm check`) to verify; CI should gate on it.
 
@@ -196,14 +196,14 @@ Run `pnpm lint` (or `pnpm check`) to verify; CI should gate on it.
 
 ## Adding new code — decision table
 
-| I'm adding...                        | It goes in...                                                      |
-| ------------------------------------ | ------------------------------------------------------------------ |
-| A new business domain (API)          | `pnpm gen module <name>` → `apps/api/src/core/<name>/`             |
-| A DB entity                          | `prisma/schema.prisma` + repo in `apps/api/src/database/repos/`    |
-| Mail/queue/storage/external service  | `apps/api/src/integrations/<name>/`                                |
-| A guard/interceptor used everywhere  | `apps/api/src/common/`                                             |
-| A new screen/domain (web)            | `pnpm gen feature <name>` → `apps/web/src/features/<name>/`        |
-| An HTTP call                         | `features/<x>/services/` (via `@/lib/api-client`)                  |
-| A request/response type              | `packages/shared/src/types/`                                       |
-| A generic UI primitive               | `npx shadcn@latest add ...` → `components/ui/`                     |
-| An app-specific reusable component   | `apps/web/src/components/common/`                                  |
+| I'm adding...                       | It goes in...                                                   |
+| ----------------------------------- | --------------------------------------------------------------- |
+| A new business domain (API)         | `pnpm gen module <name>` → `apps/api/src/core/<name>/`          |
+| A DB entity                         | `prisma/schema.prisma` + repo in `apps/api/src/database/repos/` |
+| Mail/queue/storage/external service | `apps/api/src/integrations/<name>/`                             |
+| A guard/interceptor used everywhere | `apps/api/src/common/`                                          |
+| A new screen/domain (web)           | `pnpm gen feature <name>` → `apps/web/src/features/<name>/`     |
+| An HTTP call                        | `features/<x>/services/` (via `@/lib/api-client`)               |
+| A request/response type             | `packages/shared/src/types/`                                    |
+| A generic UI primitive              | `npx shadcn@latest add ...` → `components/ui/`                  |
+| An app-specific reusable component  | `apps/web/src/components/common/`                               |

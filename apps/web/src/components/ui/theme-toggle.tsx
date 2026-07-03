@@ -1,6 +1,8 @@
-import { useTheme } from '@/hooks/use-theme';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { useTheme } from '@/hooks/use-theme';
+
 import { Button } from './button';
 
 export function ThemeToggle() {

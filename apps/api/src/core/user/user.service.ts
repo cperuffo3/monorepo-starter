@@ -1,5 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+
 import type { UserResponse } from '@starter/shared';
+
 import type { User } from '../../database/index.js';
 import { UserRepo } from '../../database/index.js';
 import { CreateUserDto } from './dto/index.js';

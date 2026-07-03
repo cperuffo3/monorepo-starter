@@ -1,6 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   faCircleCheck,
   faCircleXmark,
@@ -10,6 +7,11 @@ import {
   faServer,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 import { useHealth } from '../queries';
 
 export function HealthStatusCard() {
@@ -55,14 +57,14 @@ export function HealthStatusCard() {
               {data.status === 'ok' ? (
                 <>
                   <FontAwesomeIcon icon={faCircleCheck} className="h-8 w-8 text-green-500" />
-                  <Badge variant="success" className="text-base px-4 py-1">
+                  <Badge variant="success" className="px-4 py-1 text-base">
                     Healthy
                   </Badge>
                 </>
               ) : (
                 <>
                   <FontAwesomeIcon icon={faCircleXmark} className="h-8 w-8 text-destructive" />
-                  <Badge variant="destructive" className="text-base px-4 py-1">
+                  <Badge variant="destructive" className="px-4 py-1 text-base">
                     Unhealthy
                   </Badge>
                 </>
@@ -71,7 +73,7 @@ export function HealthStatusCard() {
 
             {data.info && Object.keys(data.info).length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-center">Services</p>
+                <p className="text-center text-sm font-medium">Services</p>
                 <div className="flex flex-col gap-2">
                   {Object.entries(data.info).map(([key, value]) => (
                     <div

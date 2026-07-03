@@ -2,13 +2,14 @@
  * Unified error page.
  * Used both as a React Router errorElement and by the ErrorBoundaryProvider.
  */
+import { faHouse, faRotate, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { env } from '@/config/env';
 import { createErrorReport, reportError } from '@/lib/error-reporting';
-import { faHouse, faRotate, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
 
 interface ErrorPageContentProps {
   error?: Error | null;
@@ -67,7 +68,7 @@ function ErrorPageContent({
 
   return (
     <div className="flex min-h-svh items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-lg text-center transition-all duration-300 overflow-hidden">
+      <Card className="w-full max-w-lg overflow-hidden text-center transition-all duration-300">
         <CardHeader>
           <div className="mx-auto mb-4">
             <FontAwesomeIcon icon={faTriangleExclamation} className="h-16 w-16 text-destructive" />

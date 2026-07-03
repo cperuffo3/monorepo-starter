@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import type { CreateUserRequest } from '@starter/shared';
 import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
+
+import type { CreateUserRequest } from '@starter/shared';
 
 export class CreateUserDto implements CreateUserRequest {
   @ApiProperty({ example: 'jane@example.com' })

@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import { PageLoader } from './components/common';
 // Import feature barrels directly (not './features') so lazy routes stay out
 // of the static module graph and Vite can code-split them.
