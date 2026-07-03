@@ -179,6 +179,15 @@ export default tseslint.config(
     },
   },
   {
+    // main.tsx is the app entry point (createRoot render) — it has no exports
+    // and fast refresh doesn't apply to it, so the only-export-components rule
+    // (stricter since react-refresh v0.5) would flag the lazy() route wrapper.
+    files: ['src/main.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
     // shadcn/ui primitives are vendored code managed by the shadcn CLI and
     // regenerated on `npx shadcn@latest add`. Relax the project's stricter
     // stylistic/compiler lints for them so component updates stay drop-in.
