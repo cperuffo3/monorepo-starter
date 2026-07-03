@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.0](https://github.com/cperuffo3/monorepo-starter/compare/v0.2.0...v0.3.0) (2026-07-03)
+
+### Features
+
+* enforce layered architecture with lint boundaries and scaffolding ([1de9460](https://github.com/cperuffo3/monorepo-starter/commit/1de9460fbcd477d832420c0c4d7b7e8e62c52052))
+
 ## [0.2.0](https://github.com/cperuffo3/monorepo-starter/compare/v0.1.5...v0.2.0) (2026-06-10)
 
 ### Features
