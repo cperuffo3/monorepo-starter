@@ -1,10 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
-// The Prisma client is a generated build artifact outside src/, so a deep
-// relative import is required here (no path alias resolves at runtime under tsc/ESM).
-// eslint-disable-next-line no-restricted-imports
-import { PrismaClient } from '../../../prisma/generated/prisma/client.js';
+import { PrismaClient } from '../../prisma/generated/prisma/client.js';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {

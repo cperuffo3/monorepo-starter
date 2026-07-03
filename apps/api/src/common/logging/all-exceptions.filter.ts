@@ -35,7 +35,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const message =
-      exception instanceof HttpException ? exception.message : 'Internal server error';
+      exception instanceof HttpException ? this.extractMessage(exception) : 'Internal server error';
 
     const errorResponse = {
       statusCode: status,
@@ -66,6 +66,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     response.status(status).json(errorResponse);
+  }
+
+  /**
+   * Pull the message out of an HttpException's response body.
+   * ValidationPipe (class-validator) puts field-level errors in
+   * `message: string[]` there; `exception.message` would flatten them
+   * to a generic "Bad Request Exception".
+   */
+  private extractMessage(exception: HttpException): string | string[] {
+    const res = exception.getResponse();
+    if (typeof res === 'object' && res !== null && 'message' in res) {
+      return (res as { message: string | string[] }).message;
+    }
+    return exception.message;
   }
 
   /**

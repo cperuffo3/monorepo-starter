@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { LoggingModule } from './common/logging/index.js';
-import { PrismaModule } from './common/prisma/index.js';
-import { HealthModule } from './modules/health/index.js';
+import { CoreModule } from './core/index.js';
+import { DatabaseModule } from './database/index.js';
+import { HealthModule } from './integrations/health/index.js';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { HealthModule } from './modules/health/index.js';
       envFilePath: ['.env.local', '.env'],
     }),
     LoggingModule,
-    PrismaModule,
+    DatabaseModule,
+    CoreModule,
     HealthModule,
   ],
 })

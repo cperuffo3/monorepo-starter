@@ -1,0 +1,8 @@
+{
+  // Used ONLY by eslint-import-resolver-typescript (see eslint.config.js).
+  // `extends` inherits compilerOptions (including paths) but NOT `references` —
+  // that's the point: unrs-resolver treats a tsconfig with `references` as a
+  // solution-style project and stops applying its `paths` mapping.
+  "extends": "./tsconfig.json",
+  "include": ["src", "vite.config.ts"]
+}

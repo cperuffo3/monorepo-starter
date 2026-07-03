@@ -54,50 +54,65 @@ cd apps/web
 npx shadcn@latest add [component-name]
 ```
 
+### Scaffolding New Code
+
+```bash
+pnpm gen feature [name]   # New web feature slice (apps/web/src/features/[name])
+pnpm gen module [name]    # New API domain module (apps/api/src/core/[name])
+```
+
 ## Architecture
 
-This is a **pnpm workspaces + Turborepo** monorepo with two apps:
+This is a **pnpm workspaces + Turborepo** monorepo. The organization is a contract, documented in `.documentation/devdocs/organization.md` and **enforced by ESLint** (`eslint-plugin-boundaries` layer rules, `eslint-plugin-check-file` kebab-case naming, `no-restricted-imports` fences). Read that doc before adding folders or moving code.
 
 ### apps/api (NestJS Backend)
 
 - **Package name**: `@starter/api`
-- **Entry**: `src/main.ts` - Sets global prefix `/api/v1`, enables CORS
-- **Module pattern**: NestJS modules in `src/` (e.g., `health/`, `prisma/`)
-- **Database**: Prisma with PostgreSQL adapter (`@prisma/adapter-pg`)
-  - Schema: `prisma/schema.prisma`
-  - Generated client: `prisma/generated/prisma/` (not `node_modules`)
-  - PrismaService wraps PrismaClient with pg Pool connection
-- **Health endpoint**: `/api/v1/health` using `@nestjs/terminus`
-- Uses ES modules (`"type": "module"` in package.json)
+- **Entry**: `src/main.ts` - global prefix `/api/v1`, CORS, global `ValidationPipe`, Swagger at `/api/openapi`
+- **Layer taxonomy** (lint-enforced):
+  - `src/core/` — domain modules (e.g. `user/`), each with `*.controller.ts`, `*.service.ts`, `dto/`, `index.ts`; aggregated in `core/core.module.ts`
+  - `src/integrations/` — infrastructure modules (e.g. `health/`)
+  - `src/common/` — cross-cutting plumbing (logging, filters, interceptors)
+  - `src/database/` — persistence: `PrismaService`, repos (`repos/<entity>/<entity>.repo.ts`), entity type re-exports. **Only this layer may import `prisma/generated`**; services use repos, never Prisma directly.
+- **Database**: Prisma with PostgreSQL adapter (`@prisma/adapter-pg`); schema in `prisma/schema.prisma`, generated client in `prisma/generated/prisma/`
+- Uses ES modules (`"type": "module"`); relative imports need `.js` extensions
 
 ### apps/web (Vite + React Frontend)
 
 - **Package name**: `@starter/web`
 - **Tech**: React 19, TypeScript, Tailwind CSS v4, TanStack Query
-- **UI**: shadcn/ui components in `src/components/ui/`
-- **Path aliases**: `@` = `src/`, `@components`, `@lib`
+- **Feature slices** in `src/features/<name>/`, internally layered (lint-enforced): `services/` (HTTP via `@/lib/api-client` — nothing else calls fetch) → `queries/` (TanStack Query hooks) → `components/` + `pages/`. Features may not import other features' internals.
+- **Shared layers**: `components/ui/` (shadcn, vendored), `components/common/`, `hooks/`, `lib/`, `config/`, `providers/`
+- **Path alias**: `@` = `src/` (the only alias)
 - **API proxy**: Vite dev server proxies `/api` to `localhost:3000`
-- **State**: TanStack Query for server state (see `src/api/` for API calls)
+- **Naming**: kebab-case files/folders everywhere (`health-status-card.tsx`, `use-theme.ts`)
+
+### packages/shared (@starter/shared)
+
+API wire-contract types (request/response shapes) used by both apps. Dates are ISO strings. Builds to `dist/` via tsc (`prepare` on install; turbo orders `^build`).
 
 ### Workspace Structure
 
 ```
 apps/
 ├── api/           # NestJS backend (@starter/api)
-│   ├── src/       # NestJS modules
+│   ├── src/       # core/ + integrations/ + common/ + database/
 │   └── prisma/    # Schema + generated client
 └── web/           # Vite + React frontend (@starter/web)
     └── src/
-        ├── api/        # API fetch functions
-        └── components/ # React components + shadcn/ui
-packages/          # Shared packages (empty, for future use)
+        ├── features/   # Feature slices (services → queries → components/pages)
+        └── components/ # ui/ (shadcn) + common/
+packages/
+└── shared/        # @starter/shared — API contract types
 docker/            # docker-compose.yml for PostgreSQL
 ```
 
 ## Key Conventions
 
 - **Imports in API**: Use `.js` extension for relative imports (ESM requirement)
-- **Prisma client import**: `from '../../prisma/generated/prisma/client.js'`
+- **Prisma access**: only via repos in `src/database/repos/`; entity types via the `database` barrel
+- **Barrels**: every folder has an `index.ts`; cross-module imports go through them (lint-enforced)
+- **Shared API types**: `import type { UserResponse } from '@starter/shared'`
 - **Environment files**: `.env` at root and `apps/api/.env` (see `.env.example`)
 - **Database URL**: Set via `DATABASE_URL` in `apps/api/.env`
 

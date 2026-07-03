@@ -1,4 +1,4 @@
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/use-theme';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from './button';

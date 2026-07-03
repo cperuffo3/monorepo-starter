@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module.js';
@@ -16,6 +17,14 @@ async function bootstrap() {
 
   app.setGlobalPrefix(apiPrefix);
 
+  // Validate all incoming DTOs (class-validator decorators in core/*/dto)
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
+
   app.enableCors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
     credentials: true,
@@ -27,6 +36,7 @@ async function bootstrap() {
     .setDescription('NestJS + Prisma + PostgreSQL API')
     .setVersion('1.0')
     .addTag('Health', 'Health check endpoints')
+    .addTag('Users', 'User management endpoints')
     .build();
 
   const openApiDocument = SwaggerModule.createDocument(app, swaggerConfig);

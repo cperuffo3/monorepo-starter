@@ -1,1 +1,1 @@
-export { ApiDocsPage } from './ApiDocsPage';
+export { ApiDocsPage } from './api-docs-page';

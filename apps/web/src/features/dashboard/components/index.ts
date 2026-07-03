@@ -1,1 +1,1 @@
-export { HealthStatusCard } from './HealthStatusCard';
+export { HealthStatusCard } from './health-status-card';

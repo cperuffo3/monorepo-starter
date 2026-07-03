@@ -10,7 +10,7 @@ import {
   faServer,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useHealth } from '../hooks';
+import { useHealth } from '../queries';
 
 export function HealthStatusCard() {
   const { data, isLoading, isError, error, refetch, dataUpdatedAt } = useHealth();

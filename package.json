@@ -24,6 +24,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "clean": "turbo clean && rimraf node_modules",
     "init-project": "pnpm install && node scripts/init.mjs",
+    "gen": "node scripts/generate.mjs",
     "release": "release-it",
     "release:patch": "release-it patch",
     "release:minor": "release-it minor",

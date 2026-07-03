@@ -11,3 +11,6 @@ allowBuilds:
   '@scarf/scarf': false
   prisma: false
   vue-demi: false
+  # Native bindings for eslint-import-resolver-typescript (falls back to a
+  # slower JS implementation if not built).
+  unrs-resolver: true
