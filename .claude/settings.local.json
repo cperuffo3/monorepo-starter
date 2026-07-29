@@ -55,7 +55,9 @@
       "WebSearch",
       "Bash(git merge-base:*)",
       "Bash(wait:*)",
-      "Bash(prettier \")"
+      "Bash(prettier \")",
+      "Read(//c/source/HT_repo/wcs-nextgen-poc/**)",
+      "Bash(node \"/c/Users/COREYP~1/AppData/Local/Temp/claude/C--source-PERSONAL-repos-monorepo-starter/f2d74033-eb0d-4a8d-9fcc-c737cfea2397/scratchpad/rename.mjs\")"
     ],
     "deny": [
       "Bash(git push:*)",
