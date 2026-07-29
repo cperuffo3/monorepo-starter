@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0](https://github.com/cperuffo3/monorepo-starter/compare/v0.3.0...v0.4.0) (2026-07-29)
+
+### Refactoring
+
+* migrate eslint boundaries config to v7 policy syntax ([950a069](https://github.com/cperuffo3/monorepo-starter/commit/950a069bd051902d76bf3abc1f35ce80047b81f8))
+
+### Chores
+
+* **deps:** bump minor and major dependency groups ([c16f4a5](https://github.com/cperuffo3/monorepo-starter/commit/c16f4a5d4e65895f71abe1c3becb2e6d507307f7)), references [#119](https://github.com/cperuffo3/monorepo-starter/issues/119)
+* update local claude-code permission grants ([e52a27f](https://github.com/cperuffo3/monorepo-starter/commit/e52a27ff115c0e0f37b4aed065e27a08b4718735))
+
 ## [0.3.0](https://github.com/cperuffo3/monorepo-starter/compare/v0.2.0...v0.3.0) (2026-07-03)
 
 ### Features
