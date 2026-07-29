@@ -80,75 +80,99 @@ export default tseslint.config(
           ],
         },
       ],
-      'boundaries/element-types': [
+      'boundaries/dependencies': [
         'error',
         {
           default: 'disallow',
           message:
-            '${file.type} code may not import ${dependency.type} code (see .documentation/devdocs/organization.md)',
-          rules: [
-            { from: 'ui', allow: ['ui', 'lib', 'hooks'] },
+            '{{from.element.type}} code may not import {{to.element.type}} code (see .documentation/devdocs/organization.md)',
+          policies: [
             {
-              from: 'shared-components',
-              allow: ['ui', 'shared-components', 'lib', 'hooks', 'config'],
+              from: { element: { type: 'ui' } },
+              allow: { to: { element: { type: ['ui', 'lib', 'hooks'] } } },
             },
             {
-              from: 'feature',
-              allow: [
-                'ui',
-                'shared-components',
-                'lib',
-                'hooks',
-                'config',
-                ['feature', { featureName: '${from.featureName}' }],
-              ],
-            },
-            { from: 'features-barrel', allow: ['feature'] },
-            { from: 'hooks', allow: ['hooks', 'lib', 'config'] },
-            { from: 'lib', allow: ['lib', 'config'] },
-            { from: 'config', allow: ['config'] },
-            {
-              from: 'providers',
-              allow: ['ui', 'shared-components', 'lib', 'hooks', 'config'],
+              from: { element: { type: 'shared-components' } },
+              allow: {
+                to: {
+                  element: {
+                    type: ['ui', 'shared-components', 'lib', 'hooks', 'config'],
+                  },
+                },
+              },
             },
             {
-              from: 'app',
-              allow: [
-                'ui',
-                'shared-components',
-                'feature',
-                'features-barrel',
-                'hooks',
-                'lib',
-                'config',
-                'providers',
-                'styles',
-                'app',
-              ],
+              from: { element: { type: 'feature' } },
+              allow: {
+                to: [
+                  {
+                    element: {
+                      type: ['ui', 'shared-components', 'lib', 'hooks', 'config'],
+                    },
+                  },
+                  {
+                    element: {
+                      type: 'feature',
+                      captured: { featureName: '{{from.element.captured.featureName}}' },
+                    },
+                  },
+                ],
+              },
             },
-          ],
-        },
-      ],
-      'boundaries/entry-point': [
-        'error',
-        {
-          default: 'disallow',
-          message: 'Import features through their barrel (index.ts), not internal files',
-          rules: [
-            { target: ['feature'], allow: 'index.ts' },
             {
-              target: [
-                'ui',
-                'shared-components',
-                'features-barrel',
-                'hooks',
-                'lib',
-                'config',
-                'providers',
-                'styles',
-                'app',
-              ],
-              allow: '**',
+              from: { element: { type: 'features-barrel' } },
+              allow: { to: { element: { type: 'feature' } } },
+            },
+            {
+              from: { element: { type: 'hooks' } },
+              allow: { to: { element: { type: ['hooks', 'lib', 'config'] } } },
+            },
+            {
+              from: { element: { type: 'lib' } },
+              allow: { to: { element: { type: ['lib', 'config'] } } },
+            },
+            {
+              from: { element: { type: 'config' } },
+              allow: { to: { element: { type: 'config' } } },
+            },
+            {
+              from: { element: { type: 'providers' } },
+              allow: {
+                to: {
+                  element: {
+                    type: ['ui', 'shared-components', 'lib', 'hooks', 'config'],
+                  },
+                },
+              },
+            },
+            {
+              from: { element: { type: 'app' } },
+              allow: {
+                to: {
+                  element: {
+                    type: [
+                      'ui',
+                      'shared-components',
+                      'feature',
+                      'features-barrel',
+                      'hooks',
+                      'lib',
+                      'config',
+                      'providers',
+                      'styles',
+                      'app',
+                    ],
+                  },
+                },
+              },
+            },
+            // Barrel enforcement (formerly boundaries/entry-point, deprecated in v7).
+            // Policies are last-match-wins, so this must stay last: it adds a
+            // disallow on top of whatever the layer policies above allowed.
+            {
+              to: { element: { type: 'feature' } },
+              disallow: { to: { element: { fileInternalPath: '!index.ts' } } },
+              message: 'Import features through their barrel (index.ts), not internal files',
             },
           ],
         },

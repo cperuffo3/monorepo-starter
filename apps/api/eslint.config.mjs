@@ -70,44 +70,68 @@ export default tseslint.config(
           ],
         },
       ],
-      'boundaries/element-types': [
+      'boundaries/dependencies': [
         'error',
         {
           default: 'disallow',
           message:
-            '${file.type} code may not import ${dependency.type} code (see .documentation/devdocs/organization.md)',
-          rules: [
-            { from: 'common', allow: ['common'] },
-            { from: 'database', allow: ['database', 'common'] },
+            '{{from.element.type}} code may not import {{to.element.type}} code (see .documentation/devdocs/organization.md)',
+          policies: [
             {
-              from: 'core',
-              allow: ['core', 'core-root', 'common', 'database', 'integrations'],
-            },
-            { from: 'core-root', allow: ['core', 'core-root'] },
-            {
-              from: 'integrations',
-              allow: [
-                'common',
-                'database',
-                ['integrations', { moduleName: '${from.moduleName}' }],
-              ],
+              from: { element: { type: 'common' } },
+              allow: { to: { element: { type: 'common' } } },
             },
             {
-              from: 'app',
-              allow: ['common', 'database', 'core', 'core-root', 'integrations', 'app'],
+              from: { element: { type: 'database' } },
+              allow: { to: { element: { type: ['database', 'common'] } } },
             },
-          ],
-        },
-      ],
-      'boundaries/entry-point': [
-        'error',
-        {
-          default: 'disallow',
-          message:
-            'Import ${dependency.type} modules through their barrel (index.ts), not internal files',
-          rules: [
-            { target: ['core', 'integrations', 'database'], allow: 'index.ts' },
-            { target: ['common', 'core-root', 'app'], allow: '**' },
+            {
+              from: { element: { type: 'core' } },
+              allow: {
+                to: {
+                  element: {
+                    type: ['core', 'core-root', 'common', 'database', 'integrations'],
+                  },
+                },
+              },
+            },
+            {
+              from: { element: { type: 'core-root' } },
+              allow: { to: { element: { type: ['core', 'core-root'] } } },
+            },
+            {
+              from: { element: { type: 'integrations' } },
+              allow: {
+                to: [
+                  { element: { type: ['common', 'database'] } },
+                  {
+                    element: {
+                      type: 'integrations',
+                      captured: { moduleName: '{{from.element.captured.moduleName}}' },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              from: { element: { type: 'app' } },
+              allow: {
+                to: {
+                  element: {
+                    type: ['common', 'database', 'core', 'core-root', 'integrations', 'app'],
+                  },
+                },
+              },
+            },
+            // Barrel enforcement (formerly boundaries/entry-point, deprecated in v7).
+            // Policies are last-match-wins, so these must stay last: they add
+            // disallows on top of whatever the layer policies above allowed.
+            {
+              to: { element: { type: ['core', 'integrations', 'database'] } },
+              disallow: { to: { element: { fileInternalPath: '!index.ts' } } },
+              message:
+                'Import {{to.element.type}} modules through their barrel (index.ts), not internal files',
+            },
           ],
         },
       ],

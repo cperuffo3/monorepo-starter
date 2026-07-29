@@ -54,7 +54,7 @@ apps/api/src/
 | `core/`         | Domain modules: controllers, services, DTOs                         | `core`, `common`, `database`, `integrations`  |
 | `integrations/` | Infrastructure with external systems (health, mail, queue, storage) | `common`, `database`, same integration module |
 
-These edges are enforced by `boundaries/element-types` in `eslint.config.mjs`. Cross-layer imports must go through the layer's barrel (`index.ts`) — enforced by `boundaries/entry-point`.
+These edges are enforced by `boundaries/dependencies` in `eslint.config.mjs`. Cross-layer imports must go through the layer's barrel (`index.ts`) — enforced by trailing barrel policies in the same rule (policies are last-match-wins).
 
 ### Domain module anatomy (`core/<name>/`)
 
@@ -180,15 +180,15 @@ packages/shared/src/
 
 ## Enforcement summary
 
-| Mechanism                               | What it enforces                                                 |
-| --------------------------------------- | ---------------------------------------------------------------- |
-| `boundaries/element-types`              | The layer/feature import matrix above, in both apps              |
-| `boundaries/entry-point`                | Cross-module imports go through barrels (`index.ts`)             |
-| `no-restricted-imports`                 | No `../../../` imports; Prisma client fenced into `src/database` |
-| `check-file/filename-naming-convention` | kebab-case file names                                            |
-| `check-file/folder-naming-convention`   | kebab-case folder names                                          |
-| `pnpm gen feature\|module`              | New code starts in the canonical shape                           |
-| `turbo build` (`dependsOn: ^build`)     | `@starter/shared` builds before the apps                         |
+| Mechanism                                   | What it enforces                                                 |
+| ------------------------------------------- | ---------------------------------------------------------------- |
+| `boundaries/dependencies` (layer policies)  | The layer/feature import matrix above, in both apps              |
+| `boundaries/dependencies` (barrel policies) | Cross-module imports go through barrels (`index.ts`)             |
+| `no-restricted-imports`                     | No `../../../` imports; Prisma client fenced into `src/database` |
+| `check-file/filename-naming-convention`     | kebab-case file names                                            |
+| `check-file/folder-naming-convention`       | kebab-case folder names                                          |
+| `pnpm gen feature\|module`                  | New code starts in the canonical shape                           |
+| `turbo build` (`dependsOn: ^build`)         | `@starter/shared` builds before the apps                         |
 
 Run `pnpm lint` (or `pnpm check`) to verify; CI should gate on it.
 
